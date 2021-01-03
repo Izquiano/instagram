@@ -8,7 +8,7 @@ export class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      mane: "",
+      name: "",
     };
     this.onSignUp = this.onSignUp.bind(this);
   }
@@ -17,6 +17,12 @@ export class Register extends Component {
     const { email, password, name } = this.state;
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        firebase.firestore().collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .set({
+            name: name,
+            email: email
+          })
         console.log(result);
       })
       .catch((error) => {
