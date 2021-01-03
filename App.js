@@ -27,7 +27,7 @@ import RegisterScreen from './components/auth/Register'
 const Stack = createStackNavigator()
 
 
-export class App extends Component {
+export default class App extends Component {
   constructor( props ) {
     super(props)
     this.state = {
@@ -56,27 +56,38 @@ export class App extends Component {
     if(!loaded){
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Tex>
+          <Text>
             Loading
-          </Tex>
+          </Text>
         </View>
       )
     }
+    if(!loggedIn){
+      return (
+        <NavigationContainer>
+        <Stack.Navigator initialRouteName="Landing">
+          <Stack.Screen 
+            name="Landing"
+            component={ LandingScreen }
+            options={{ headerShown: false }}
+          />  
+          <Stack.Screen 
+            name="Register"
+            component={ RegisterScreen }
+          />  
+        </Stack.Navigator>      
+      </NavigationContainer>
+      )
+
+    }
     return (
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing">
-        <Stack.Screen 
-          name="Landing"
-          component={ LandingScreen }
-          options={{ headerShown: false }}
-        />  
-        <Stack.Screen 
-          name="Register"
-          component={ RegisterScreen }
-        />  
-      </Stack.Navigator>      
-    </NavigationContainer>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Text>
+          User is Logged in
+        </Text>
+      </View>
     )
+    
   }
 }
 
